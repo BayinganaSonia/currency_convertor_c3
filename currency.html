@@ -2,61 +2,93 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Quick Currency Convert</title>
+  <title>💱 Fancy Currency Converter</title>
   <style>
     body {
-      background: #f0f2f5;
-      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #8e44ad, #3498db);
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
-      padding: 50px;
-    }
-    .converter {
-      background: #fff;
-      padding: 20px 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 600px;
-    }
-    .row {
-      display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      height: 100vh;
+      color: #333;
+    }
+
+    .converter-container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #2c3e50;
+    }
+
+    .converter-row {
+      display: flex;
+      gap: 15px;
       flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
     }
-    .row select, .row input {
-      flex: 1;
-      padding: 10px;
+
+    select, input {
+      padding: 12px;
       font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      flex: 1 1 120px;
+      min-width: 120px;
+      transition: border 0.3s;
     }
-    .row button {
-      padding: 10px 20px;
+
+    select:focus, input:focus {
+      border-color: #8e44ad;
+      outline: none;
+    }
+
+    button {
+      padding: 12px 30px;
       font-size: 16px;
-      background: #333;
-      color: white;
       border: none;
-      border-radius: 5px;
+      background-color: #8e44ad;
+      color: white;
+      border-radius: 10px;
       cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
     }
-    .row button:hover {
-      background: #555;
+
+    button:hover {
+      background-color: #732d91;
+      transform: scale(1.05);
     }
-    .result-text {
-      margin-top: 20px;
-      font-size: 18px;
+
+    .result-box {
+      margin-top: 25px;
+      font-size: 20px;
       font-weight: bold;
       color: #2c3e50;
-      text-align: center;
+      background: #ecf0f1;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
 
-<div class="converter">
-  <h2 style="text-align:center; margin-bottom:20px;">Quick Currency Convert</h2>
+<div class="converter-container">
+  <h1>💱 Fancy Currency Converter</h1>
 
-  <div class="row">
+  <div class="converter-row">
     <select id="sourceCurrency">
       <option value="USD">USD</option>
       <option value="JPY">JPY</option>
@@ -74,11 +106,11 @@
       <option value="RUB">RUB</option>
       <option value="GBP">GBP</option>
     </select>
-
-    <button onclick="performConversion()">Convert</button>
   </div>
 
-  <div id="finalResult" class="result-text"></div>
+  <button onclick="performConversion()">Convert</button>
+
+  <div id="finalResult" class="result-box" style="display: none;"></div>
 </div>
 
 <script>
@@ -94,15 +126,17 @@
     const from = document.getElementById("sourceCurrency").value;
     const to = document.getElementById("targetCurrency").value;
     const amount = parseFloat(document.getElementById("amountInput").value);
-    const display = document.getElementById("finalResult");
+    const result = document.getElementById("finalResult");
 
-    if (isNaN(amount) || amount < 1) {
-      display.textContent = "❗ Enter a valid amount greater than 0";
+    if (isNaN(amount) || amount <= 0) {
+      result.style.display = "block";
+      result.textContent = "⚠️ Please enter a valid amount greater than 0.";
       return;
     }
 
     const converted = (amount * rates[to]) / rates[from];
-    display.textContent = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
+    result.style.display = "block";
+    result.textContent = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
   }
 </script>
 

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quick Currency Convert</title>
+  <style>
+    body {
+      background: #f0f2f5;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 50px;
+    }
+    .converter {
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 600px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .row select, .row input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .row button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .row button:hover {
+      background: #555;
+    }
+    .result-text {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #2c3e50;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="converter">
+  <h2 style="text-align:center; margin-bottom:20px;">Quick Currency Convert</h2>
+
+  <div class="row">
+    <select id="sourceCurrency">
+      <option value="USD">USD</option>
+      <option value="JPY">JPY</option>
+      <option value="EUR">EUR</option>
+      <option value="RUB">RUB</option>
+      <option value="GBP">GBP</option>
+    </select>
+
+    <input type="number" id="amountInput" placeholder="Amount" min="1">
+
+    <select id="targetCurrency">
+      <option value="USD">USD</option>
+      <option value="JPY">JPY</option>
+      <option value="EUR">EUR</option>
+      <option value="RUB">RUB</option>
+      <option value="GBP">GBP</option>
+    </select>
+
+    <button onclick="performConversion()">Convert</button>
+  </div>
+
+  <div id="finalResult" class="result-text"></div>
+</div>
+
+<script>
+  const rates = {
+    USD: 1.0,
+    JPY: 113.5,
+    EUR: 0.89,
+    RUB: 74.36,
+    GBP: 0.75
+  };
+
+  function performConversion() {
+    const from = document.getElementById("sourceCurrency").value;
+    const to = document.getElementById("targetCurrency").value;
+    const amount = parseFloat(document.getElementById("amountInput").value);
+    const display = document.getElementById("finalResult");
+
+    if (isNaN(amount) || amount < 1) {
+      display.textContent = "❗ Enter a valid amount greater than 0";
+      return;
+    }
+
+    const converted = (amount * rates[to]) / rates[from];
+    display.textContent = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
+  }
+</script>
+
+</body>
+</html>
